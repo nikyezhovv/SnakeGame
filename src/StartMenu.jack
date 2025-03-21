@@ -33,7 +33,7 @@ class StartMenu {
         do Screen.drawLine(10,20,10,256-20);
         do Screen.drawLine(512-10,20,512-10,256-20);
 
-        do MyScreen.drawRectangle(140,115,512-180,256-115, 3);
+        do MyScreen.drawRectangle(140 - 6,115-4,512-180-20,256-115, 3);
 
         do Output.moveCursor(15, 19); // Output uses character coordinates
         do Output.printString("Best result: ");

@@ -9,7 +9,7 @@ class GameField {
         do Output.moveCursor(3, 1);
         do Output.printString("Score:");
         do Output.moveCursor(5, 2);
-        do Output.printInt(score.getPoints();
+        do Output.printInt(score.getPoints());
         return;
     }
 
