@@ -1,0 +1,44 @@
+/** Math Class
+ *  Includes methods for basic math operation
+ */
+class MyMath {
+
+        /** Performs integer division of x by y.
+     * Returns the integer part of x/y. */
+    function int divide(int x, int y) {
+        var int q, absX, absY;
+
+        if (y = 0) {
+            do Sys.error("Division by zero");
+            return 0; // or some other error value
+        }
+
+        let q = 0; // Quotient
+        let absX = Math.abs(x); // Absolute value of x
+        let absY = Math.abs(y); // Absolute value of y
+
+        while (absX > absY) {
+            let absX = absX - absY; // Subtraction for division
+            let q = q + 1; // Increment quotient
+        }
+
+        if (((x < 0) & (y > 0)) | ((x > 0) & (y < 0))) {
+            return -q; // Negate if signs are different
+        } else {
+            return q; // Otherwise, return positive quotient
+        }
+    }
+
+    /** Returns the largest power of 2 less than or equal to x. */
+    function int pow(int base, int exponent) {
+        var int result, i;
+
+        let result = 1;
+        let i = 0;
+        while (i < exponent) {
+            let result = result * base;
+            let i = i + 1;
+        }
+        return result;
+    }
+}

@@ -1,0 +1,50 @@
+
+/** Screen class - handles drawing to the screen */
+class MyScreen {
+    //Good function
+    function void drawRectangle(int x, int y, int x2, int y2, int lineWidth) {
+        var int i;
+        let i = 0;
+
+        while (i < lineWidth) {
+            // Draw the top line
+            do Screen.drawLine(x, y + i, x2, y + i);
+            // Draw the left line
+            do Screen.drawLine(x + i, y, x + i, y2);
+            // Draw the right line
+            do Screen.drawLine(x2 - i, y, x2 - i, y2);
+            // Draw the bottom line
+            do Screen.drawLine(x, y2 - i, x2, y2 - i);
+            let i = i + 1;
+        }
+        return;
+    }
+
+    //It is not work.......
+    function void drawText(String text, int x, int y, boolean fromBottomLeft) {
+        var int i, strLen, charWidth;
+        
+        let charWidth = 8; // Each character is 8 pixels wide
+        let strLen = text.length();
+        let i = 0;
+
+        do Output.moveCursor(x/8, y/8); // Output uses character coordinates
+        do Output.printString(text);
+        return;
+    }
+    
+    //It work)))
+    function void clearScreen() {
+        var int i, j;
+        let i = 0;
+        while (i < 32) {
+            let j = 0;
+            while (j < 512) {
+                do Memory.poke(8192 + (i * 32) + (j / 16), 0);
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+}
