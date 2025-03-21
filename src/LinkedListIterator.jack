@@ -1,0 +1,37 @@
+/**
+ * LinkedListIterator - An iterator for the LinkedList class.
+ */
+class LinkedListIterator {
+    field LinkedList list; // The list to iterate over
+    field ListItem current;  // The current item in the list
+
+    /** Constructs a new LinkedListIterator for the given list. */
+    constructor LinkedListIterator new(LinkedList linkedList) {
+        let list = linkedList;
+        let current = list.getHead(); // Start at the head of the list
+        return this;
+    }
+
+    /** Resets the iterator to the beginning of the list. */
+    method void reset() {
+        let current = list.getHead(); // Reset to the head
+        return;
+    }
+
+    /** Returns true if there are more items in the list. */
+    method boolean hasNext() {
+        return ~(current = null);
+    }
+
+    /** Returns the next item in the list (or null if there are no more items). */
+    method Point next() {
+        var Point data;
+        if (hasNext()) {
+            let data = current.getItem(); // Get the data from the current item
+            let current = current.getNext(); // Move to the next item
+            return data;
+        } else {
+            return null; // No more items
+        }
+    }
+}

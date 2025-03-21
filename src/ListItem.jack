@@ -1,0 +1,45 @@
+/**
+ * ListItem - Represents a single item in the linked list.  It's a private
+ * helper class, typically not used directly by the user.
+ */
+class ListItem {
+    field Point data;    // The data stored in this item
+    field ListItem next;  // A reference to the next item in the list (or null if this is the last item)
+
+    /** Constructs a new list item. */
+    constructor ListItem new(Point itemData, ListItem nextItem) {
+        let data = itemData;
+        let next = nextItem;
+        return this;
+    }
+
+    /** Disposes of this list item. */
+    method void dispose() {
+        let data = null; // Release the reference to the data
+        let next = null; // Release the reference to the next item
+        do Memory.deAlloc(this); // Deallocate the memory used by this item
+        return;
+    }
+
+    /** Returns the data stored in this item */
+    method Point getItem() {
+        return data;
+    }
+
+    /** Sets the data stored in this item */
+    method void setItem(Point newItem) {
+        let data = newItem;
+        return;
+    }
+
+    /** Returns the data stored in this item */
+    method Point getNext() {
+        return next;
+    }
+
+    /** Sets the data stored in this item */
+    method void setNext(ListItem newItem) {
+        let next = newItem;
+        return;
+    }
+}

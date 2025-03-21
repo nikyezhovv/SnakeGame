@@ -1,0 +1,170 @@
+/**
+ * LinkedList - A simple linked list implementation.
+ */
+class LinkedList {
+    field ListItem head; // The first item in the list (or null if the list is empty)
+    field ListItem tail; // The last item in the list (or null if the list is empty)
+    field int size;      // The number of items in the list
+
+    /** Constructs a new empty linked list. */
+    constructor LinkedList new() {
+        let head = null;
+        let tail = null; // Initialize tail to null
+        let size = 0;
+        return this;
+    }
+
+    method int getHead() {return head; }
+    method int getTail() {return tail; }
+
+
+    /** Disposes of all the list items. */
+    method void dispose() {
+        var ListItem current, next;
+        let current = head;
+        while (~(current = null)) {
+            let next = current.getNext(); // Use getNext() instead of direct field access
+            do current.dispose();
+            let current = next;
+        }
+        let head = null; // Reset head after disposing items
+        let tail = null; // Reset tail as well
+        let size = 0;    // Reset size
+        return;
+    }
+
+    /** Returns the number of items in the list. */
+    method int getSize() {
+        return size;
+    }
+
+    /** Returns true if the list is empty, false otherwise. */
+    method boolean isEmpty() {
+        return (size = 0);
+    }
+
+    /** Adds an item to the beginning of the list. */
+    method void addFirst(Point data) {
+        var ListItem newItem;
+        let newItem = ListItem.new(data, head); // Create a new item pointing to the current head
+        let head = newItem;                      // Update the head to the new item
+        if (tail = null) {                      // If the list was empty, also update tail
+            let tail = newItem;
+        }
+        let size = size + 1;                     // Increment the size
+        return;
+    }
+
+    /** Returns the data of the first item in the list (or null if the list is empty). */
+    method Point getFirst() {
+        if (size = 0) {
+            return null;
+        } else {
+            return head.getItem(); // Use ListItem's getItem method
+        }
+    }
+
+    /** Removes the first item from the list (if the list is not empty). */
+    method void removeFirst() {
+        if (size > 0) {
+            let head = head.getNext(); // Use getNext()
+            if (head = null) {      // If the list is now empty, also update tail
+                let tail = null;
+            }
+            let size = size - 1;  // Decrement the size
+        }
+        return;
+    }
+
+    /**
+     * Returns the data at the given index, or null if the index is out of bounds.
+     *
+     *  Note: This is not an efficient operation for linked lists! Use with caution.
+     */
+    method Point get(int index) {
+        var int i;
+        var ListItem current;
+
+        if ((index < 0) | (index + 1 > size)) {
+            return null; // Index out of bounds
+        }
+
+        let current = head;
+        let i = 0;
+        while (i < index) {
+            let current = current.getNext(); // Use getNext()
+            let i = i + 1;
+        }
+        return current.getItem(); // Use ListItem's getItem method
+    }
+
+    /**
+     * Sets the data at the given index.
+     * Returns true if successful, false if the index is out of bounds.
+     *
+     * Note: This is not an efficient operation for linked lists! Use with caution.
+     */
+    method boolean set(int index, Point data) {
+        var int i;
+        var ListItem current;
+
+        if ((index < 0) | (index + 1 > size)) {
+            return false; // Index out of bounds
+        }
+
+        let current = head;
+        let i = 0;
+        while (i < index) {
+            let current = current.getNext(); // Use getNext()
+            let i = i + 1;
+        }
+
+        do current.setItem(data); // Update the data using ListItem's setItem
+        return true;
+    }
+
+    /** Adds an item to the end of the list. */
+    method void addLast(Point data) {
+        var ListItem newItem;
+        let newItem = ListItem.new(data, null); // New item points to null (end of list)
+
+        if (tail = null) {   // List is empty
+            let head = newItem;
+            let tail = newItem;
+        } else {
+            do tail.setNext(newItem);   // The current tail now points to the new item
+            let tail = newItem;        // Update the tail to the new item
+        }
+        let size = size + 1;
+        return;
+    }
+
+    /**
+     * Removes the last item from the list.
+     */
+    method void removeLast() {
+        var ListItem current, previous;
+        if (size > 0) {
+            if (size = 1) 
+            { // Only one item in the list
+                do removeFirst(); // Use removeFirst()
+            }
+            else 
+            {                
+                let current = head;
+                let previous = null;
+
+                // Traverse the list to find the second-to-last item
+                while (~(current.getNext() = null)) { // Use getNext()
+                    let previous = current;
+                    let current = current.getNext();  // Use getNext()
+                }
+
+                let tail = previous; // Update tail to the second-to-last item
+                do tail.setNext(null);  // The new tail should point to null
+                let size = size - 1;     // Decrement the size
+            }
+        }
+        return;
+    }
+}

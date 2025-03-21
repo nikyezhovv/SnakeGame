@@ -1,5 +1,45 @@
 class Main {
     function void main() {
+        var LinkedList list;
+        var LinkedListIterator iterator;
+        var int i;
+        var int s;
+        var Point item;
+        var Point p1, p2;
+        let p1 = Point.new(5, 6);
+        let p2 = Point.new(7, 8);
+        
+        let list = LinkedList.new();
+        do list.addFirst(p1);
+        do list.addLast(p2);
+        
+        do Output.printString("Original list: ");
+        let i = 0;
+        let s = list.getSize();
+        do Output.printInt(list.getSize());
+        do Output.println();
+        while ((i < s)) {
+            let item = list.get(i);
+            do Output.printInt(item.getX());
+            do Output.printString(" | ");
+            do Output.printInt(item.getY());
+            do Output.println();
+            let i = i + 1;
+        }
+        do Output.println();
+
+        let iterator = LinkedListIterator.new(list);
+        do Output.printString("List elements using iterator: ");
+        while (iterator.hasNext()) {
+            let item = iterator.next();
+            do Output.printInt(item.getX());
+            do Output.printString(" | ");
+            do Output.printInt(item.getY());
+            do Output.println();
+        }
+        do Output.println();
+
+        do list.dispose();
         return;
     }
 }

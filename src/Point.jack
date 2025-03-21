@@ -1,0 +1,49 @@
+/**
+ * Point - Represents a point in 2D space with x and y coordinates.
+ */
+class Point {
+    field int x; // The x-coordinate of the point
+    field int y; // The y-coordinate of the point
+
+    /** Constructs a new Point object. */
+    constructor Point new(int initialX, int initialY) {
+        let x = initialX;
+        let y = initialY;
+        return this;
+    }
+
+    /** Disposes of this Point object. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Gets the x-coordinate of the point. */
+    method int getX() {
+        return x;
+    }
+
+    /** Gets the y-coordinate of the point. */
+    method int getY() {
+        return y;
+    }
+
+    /** Sets the x-coordinate of the point. */
+    method void setX(int newX) {
+        let x = newX;
+        return;
+    }
+
+    /** Sets the y-coordinate of the point. */
+    method void setY(int newY) {
+        let y = newY;
+        return;
+    }
+
+    /** Sets both x and y coordinates of the point */
+    method void setXY(int newX, int newY) {
+      let x = newX;
+      let y = newY;
+      return;
+    }
+}
