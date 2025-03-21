@@ -1,0 +1,19 @@
+/** SnakeField - Represents the game field. */
+class GameField {
+    /** Draws the game field including the border. */
+    function void startGame(int score) {
+        do Screen.clearScreen();
+        do drowField();
+        do Output.moveCursor(3, 1);
+        do Output.printString("Score:");
+        do Output.moveCursor(5, 2);
+        do Output.printInt(score);
+        return;
+    }
+
+    method void drowField()
+    {
+        do MyScreen.drawRectangle(76-9 -4, 20 - 4, 436+9 + 4, 256 - 20 + 4, 4);
+        return;
+    }
+}

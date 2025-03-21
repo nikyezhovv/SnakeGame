@@ -11,7 +11,7 @@ class StartMenu {
 
         do StartMenu.drawStartMenu();
         do StartMenu.waitForStart();
-        do StartMenu.startGame();
+        do GameField.startGame(0);
 
         return;
     }
