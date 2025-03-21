@@ -1,0 +1,31 @@
+/**
+ * Score
+ */
+class Score {
+    field int points;
+    field int bestResult;
+
+    constructor Score new() {
+        let points = 0;
+        let bestResult = 0;
+        return this;
+    }
+
+    method int getPoints() {return points; }
+
+    method int getBestResult() {return bestResult; }
+
+    method int addPoints() {
+        let points = points + 1;
+        if (points > bestResult) {
+            let bestResult = points;
+        }
+        return points;
+    }
+
+    method void drowScore() {
+        do Output.moveCursor(5, 2);
+        do Output.printInt(points);
+        return;
+    }
+}

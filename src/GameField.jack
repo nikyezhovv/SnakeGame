@@ -1,13 +1,15 @@
 /** SnakeField - Represents the game field. */
 class GameField {
     /** Draws the game field including the border. */
-    function void startGame(int score) {
+    function void drowStartGame(Score score) {
         do Screen.clearScreen();
+        
         do drowField();
+
         do Output.moveCursor(3, 1);
         do Output.printString("Score:");
         do Output.moveCursor(5, 2);
-        do Output.printInt(score);
+        do Output.printInt(score.getPoints();
         return;
     }
 

@@ -3,20 +3,23 @@ class StartMenu {
     static boolean gameStarted;
     static int screenWidth;
     static int screenHeight;
+    static Score score;
 
     function void StartDrowing() {
         let gameStarted = false;
         let screenWidth = 512;
         let screenHeight = 256;
+        let score = Score.new();
 
-        do StartMenu.drawStartMenu();
+        do StartMenu.drawStartMenu(score);
         do StartMenu.waitForStart();
-        do GameField.startGame(0);
+
+        do GameField.drowStartGame(score);
 
         return;
     }
     
-    function void drawStartMenu() {
+    function void drawStartMenu(Score score) {
         var int snakeLength, i, x, y, segmentSpacing;
 
         do Screen.clearScreen();
@@ -34,7 +37,7 @@ class StartMenu {
 
         do Output.moveCursor(15, 19); // Output uses character coordinates
         do Output.printString("Best result: ");
-        do Output.printInt(50);
+        do Output.printInt(score.getBestResult());
         do Output.printString(" !");
 
         return;
