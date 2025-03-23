@@ -1,0 +1,42 @@
+class BitOperations {
+    function int shiftLeft(int value, int bits) {
+        var int result, i;
+        let result = value;
+        let i = 0;
+        while (i < bits) {
+            let result = result * 2; 
+            let i = i + 1;
+        }
+        return result;
+    }
+
+    function int shiftRight(int value, int bits) {
+        var int result, i;
+        let result = value;
+        let i = 0;
+        while (i < bits) {
+            let result = result / 2; 
+            let i = i + 1;
+        }
+        return result;
+    }
+
+    function int xor(int a, int b) {
+    var int result, bitA, bitB, i;
+    let result = 0;
+    let i = 0;
+
+    while (i < 16) {
+        let bitA = (BitOperations.shiftRight(a, i)) & 1;
+        let bitB = (BitOperations.shiftRight(b, i)) & 1;
+
+        if (~(bitA = bitB)) {
+            let result = result + BitOperations.shiftLeft(1, i);
+        }
+
+        let i = i + 1;
+    }
+
+    return result;
+}
+}
