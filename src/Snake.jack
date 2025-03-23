@@ -1,0 +1,151 @@
+class Snake {
+    field Node head;
+    field Node tail; 
+    field int direction;
+    field int segmentSize;
+
+    static int SEGMENT_SIZE;
+    static int DIRECTION_UP;
+    static int DIRECTION_RIGHT;
+    static int DIRECTION_DOWN;
+    static int DIRECTION_LEFT;
+    static int SCREEN_HEIGHT;
+    static int SCREEN_WIDTH;
+
+    constructor Snake new(int startX, int startY, int snakeSize) {
+        let SEGMENT_SIZE = 9;
+        let DIRECTION_UP = 0;
+        let DIRECTION_RIGHT = 1;
+        let DIRECTION_DOWN = 2;
+        let DIRECTION_LEFT = 3;
+        let SCREEN_HEIGHT = 256;
+        let SCREEN_WIDTH = 512;
+
+        let segmentSize = SEGMENT_SIZE;
+        let direction = DIRECTION_RIGHT;
+
+        let head = Node.new(Segment.new(startX, startY, segmentSize));
+        let tail = head;
+
+        while (snakeSize > 0) {
+            do addSegment();
+            let snakeSize = snakeSize - 1;
+        }
+
+        return this;
+    }
+
+    method int getDirection() { 
+        return direction; 
+    }
+
+    method int getSegmentSize() { 
+        return segmentSize; 
+    }
+
+    method void setDirection(int newDirection) {
+        if (~(Math.abs(direction - newDirection) = 2)){
+            let direction = newDirection;
+        }
+        return;
+    }
+
+    method void addSegment() {
+        var Segment newSegment;
+        var Segment headSegment;
+        var int x1, y1, x2, y2;
+        var Node newNode;
+
+        let headSegment = head.getData();
+        let x1 = headSegment.getX1();
+        let y1 = headSegment.getY1();
+        let x2 = headSegment.getX2();
+        let y2 = headSegment.getY2();
+
+         if (direction = DIRECTION_UP) {
+            let y1 = y1 - segmentSize;
+            let y2 = y2 - segmentSize;
+            if (y1 < 0) {
+                let y1 = SCREEN_HEIGHT - segmentSize;
+                let y2 = SCREEN_HEIGHT;
+            }
+        }
+        if (direction = DIRECTION_RIGHT) {
+            let x1 = x1 + segmentSize;
+            let x2 = x2 + segmentSize;
+            if (x2 > SCREEN_WIDTH) {
+                let x1 = 0;
+                let x2 = segmentSize;
+            }
+        }
+        if (direction = DIRECTION_DOWN) {
+            let y1 = y1 + segmentSize;
+            let y2 = y2 + segmentSize;
+            if (y2 > SCREEN_HEIGHT) {
+                let y1 = 0;
+                let y2 = segmentSize;
+            }
+        }
+        if (direction = DIRECTION_LEFT) {
+            let x1 = x1 - segmentSize;
+            let x2 = x2 - segmentSize;
+            if (x1 < 0) {
+                let x1 = SCREEN_WIDTH - segmentSize;
+                let x2 = SCREEN_WIDTH;
+            }
+        }
+
+        let newSegment = Segment.new(x1, y1, segmentSize);
+        let newNode = Node.new(newSegment);
+        do newNode.setNext(head);
+        do head.setPrevious(newNode);
+        let head = newNode;
+
+        return;
+    }
+
+    method void removeTail() {
+        var Node oldTail;
+        var Segment tailSegment;
+
+        let oldTail = tail;
+        let tail = tail.getPrevious();
+        do tail.setNext(null);
+
+        let tailSegment = oldTail.getData();
+        do Screen.setColor(false);
+        do Screen.drawRectangle(tailSegment.getX1(), tailSegment.getY1(), 
+                                tailSegment.getX2(), tailSegment.getY2());
+        do Screen.setColor(true);
+
+        do oldTail.dispose();
+        return;
+    }
+
+    method void move() {
+        do addSegment();
+        do removeTail();
+        do drawHead();
+        return;
+    }
+
+    method void drawHead() {
+        var Segment headSegment;
+        let headSegment = head.getData();
+        do Screen.drawRectangle(headSegment.getX1(), headSegment.getY1(), 
+                                headSegment.getX2(), headSegment.getY2()); 
+        return;
+    }
+
+    method void dispose() {
+        var Node current, nextNode;
+        let current = head;
+        while (~(current = null)) {
+            let nextNode = current.getNext();
+            do current.dispose();
+            let current = nextNode;
+        }
+        do Memory.deAlloc(this);
+        return;
+    }
+}
