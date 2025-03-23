@@ -1,6 +1,7 @@
 class Snake {
     field Node head, tail;
     field int direction, segmentSize;
+    field boolean isCollided;
 
     static int directionUp;
     static int directionRight;
@@ -17,8 +18,10 @@ class Snake {
         let screenHeight = 256;
         let screenWidth = 512;
 
+
         let segmentSize = initialSegmentSize;
         let direction = directionRight;
+        let isCollided = false;
 
         let head = Node.new(Segment.new(startX, startY, segmentSize));
         let tail = head;
@@ -95,6 +98,38 @@ class Snake {
         return Segment.new(x1, y1, segmentSize);
     }
 
+    method void checkCollision() {
+        var Segment headSegment, currentSegment;
+        var Node current;
+        var int headX1, headY1, headX2, headY2;
+
+        let headSegment = head.getData();
+        let headX1 = headSegment.getX1();
+        let headY1 = headSegment.getY1();
+        let headX2 = headSegment.getX2();
+        let headY2 = headSegment.getY2();
+
+        let current = head.getNext();
+        while (~(current = null)) {
+        
+            let currentSegment = current.getData();
+
+            if ((headX1 = currentSegment.getX1()) & (headY1 = currentSegment.getY1())) {
+                let isCollided = true;
+                return;
+            }
+
+            let current = current.getNext();
+        }
+
+        let isCollided = false;
+        return;
+    }
+
+    method boolean IsCollied() {
+        return isCollided;
+    }
+
     method void addNewSegmentToHead(Segment newSegment) {
         var Node newNode;
 
@@ -128,6 +163,7 @@ class Snake {
         do addSegment();
         do removeTail();
         do drawHead();
+        do checkCollision();
         return;
     }
 
