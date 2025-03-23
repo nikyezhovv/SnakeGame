@@ -4,11 +4,11 @@ class SnakeRandom {
     field int stepCounter;
     field int stepsToUpdate;
 
-    constructor SnakeRandom new(int initialSeed) {
+    constructor SnakeRandom new(int initialSeed, int stepsToUpdateSeed) {
         let seed = initialSeed;
         let lastDirection = 0;
         let stepCounter = 0;
-        let stepsToUpdate = 13;
+        let stepsToUpdate = stepsToUpdateSeed;
         return this;
     }
 
