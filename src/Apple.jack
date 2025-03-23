@@ -1,0 +1,47 @@
+class Apple
+{
+    field int x, y;
+    field int radius;
+
+    constructor Apple new(int xPos, int yPos, int r) {
+        let x = x;
+        let y = y;
+        let radius = r;
+        return this;
+    }
+
+    method void draw() {
+        do Screen.setColor(true);
+        do Screen.drawCircle(x, y, radius);
+        return;
+    }
+
+    method void erase() {
+        do Screen.setColor(false);
+        do Screen.drawCircle(x, y, radius);
+        return;
+    }
+
+    method boolean isEaten(int snakeHeadX, int snakeHeadY) {
+        if ((x = snakeHeadX) & (y = snakeHeadY))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    method void appear(int newX, int newY) {
+        let x = newX;
+        let y = newY;
+        do draw();
+        return;
+    }
+    
+    method int getX() {
+        return x;
+    }
+
+    method int getY() {
+        return y;
+    }
+}
