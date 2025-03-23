@@ -1,8 +1,6 @@
 class Snake {
-    field Node head;
-    field Node tail; 
-    field int direction;
-    field int segmentSize;
+    field Node head, tail;
+    field int direction, segmentSize;
 
     static int SEGMENT_SIZE;
     static int DIRECTION_UP;
@@ -54,7 +52,6 @@ class Snake {
         var Segment newSegment;
         var Segment headSegment;
         var int x1, y1, x2, y2;
-        var Node newNode;
 
         let headSegment = head.getData();
         let x1 = headSegment.getX1();
@@ -62,12 +59,18 @@ class Snake {
         let x2 = headSegment.getX2();
         let y2 = headSegment.getY2();
 
-         if (direction = DIRECTION_UP) {
+        let newSegment = calculateNewSegment(x1, y1, x2, y2);
+        do addNewSegmentToHead(newSegment);
+
+        return;
+    }
+
+    method Segment calculateNewSegment(int x1, int y1, int x2, int y2) {
+        if (direction = DIRECTION_UP) {
             let y1 = y1 - segmentSize;
-            let y2 = y2 - segmentSize;
+
             if (y1 < 0) {
                 let y1 = SCREEN_HEIGHT - segmentSize;
-                let y2 = SCREEN_HEIGHT;
             }
         }
         if (direction = DIRECTION_RIGHT) {
@@ -75,7 +78,6 @@ class Snake {
             let x2 = x2 + segmentSize;
             if (x2 > SCREEN_WIDTH) {
                 let x1 = 0;
-                let x2 = segmentSize;
             }
         }
         if (direction = DIRECTION_DOWN) {
@@ -83,19 +85,21 @@ class Snake {
             let y2 = y2 + segmentSize;
             if (y2 > SCREEN_HEIGHT) {
                 let y1 = 0;
-                let y2 = segmentSize;
             }
         }
         if (direction = DIRECTION_LEFT) {
             let x1 = x1 - segmentSize;
-            let x2 = x2 - segmentSize;
             if (x1 < 0) {
                 let x1 = SCREEN_WIDTH - segmentSize;
-                let x2 = SCREEN_WIDTH;
             }
         }
 
-        let newSegment = Segment.new(x1, y1, segmentSize);
+        return Segment.new(x1, y1, segmentSize);
+    }
+
+    method void addNewSegmentToHead(Segment newSegment) {
+        var Node newNode;
+
         let newNode = Node.new(newSegment);
         do newNode.setNext(head);
         do head.setPrevious(newNode);
