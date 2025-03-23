@@ -3,8 +3,8 @@ class Node {
     field Node next;
     field Node previous;
 
-    constructor Node new(Segment Adata) {
-        let data = Adata;
+    constructor Node new(Segment initialData) {
+        let data = initialData;
         let next = null;
         let previous = null;
         return this;

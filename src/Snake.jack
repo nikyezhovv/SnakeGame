@@ -2,25 +2,23 @@ class Snake {
     field Node head, tail;
     field int direction, segmentSize;
 
-    static int SEGMENT_SIZE;
-    static int DIRECTION_UP;
-    static int DIRECTION_RIGHT;
-    static int DIRECTION_DOWN;
-    static int DIRECTION_LEFT;
-    static int SCREEN_HEIGHT;
-    static int SCREEN_WIDTH;
+    static int directionUp;
+    static int directionRight;
+    static int directionDown;
+    static int directionLeft;
+    static int screenHeight;
+    static int screenWidth;
 
-    constructor Snake new(int startX, int startY, int snakeSize) {
-        let SEGMENT_SIZE = 9;
-        let DIRECTION_UP = 0;
-        let DIRECTION_RIGHT = 1;
-        let DIRECTION_DOWN = 2;
-        let DIRECTION_LEFT = 3;
-        let SCREEN_HEIGHT = 256;
-        let SCREEN_WIDTH = 512;
+    constructor Snake new(int startX, int startY, int snakeSize, int initialSegmentSize) {
+        let directionUp = 0;
+        let directionRight = 1;
+        let directionDown = 2;
+        let directionLeft = 3;
+        let screenHeight = 256;
+        let screenWidth = 512;
 
-        let segmentSize = SEGMENT_SIZE;
-        let direction = DIRECTION_RIGHT;
+        let segmentSize = initialSegmentSize;
+        let direction = directionRight;
 
         let head = Node.new(Segment.new(startX, startY, segmentSize));
         let tail = head;
@@ -66,31 +64,31 @@ class Snake {
     }
 
     method Segment calculateNewSegment(int x1, int y1, int x2, int y2) {
-        if (direction = DIRECTION_UP) {
+        if (direction = directionUp) {
             let y1 = y1 - segmentSize;
 
             if (y1 < 0) {
-                let y1 = SCREEN_HEIGHT - segmentSize;
+                let y1 = screenHeight - segmentSize;
             }
         }
-        if (direction = DIRECTION_RIGHT) {
+        if (direction = directionRight) {
             let x1 = x1 + segmentSize;
             let x2 = x2 + segmentSize;
-            if (x2 > SCREEN_WIDTH) {
+            if (x2 > screenWidth) {
                 let x1 = 0;
             }
         }
-        if (direction = DIRECTION_DOWN) {
+        if (direction = directionDown) {
             let y1 = y1 + segmentSize;
             let y2 = y2 + segmentSize;
-            if (y2 > SCREEN_HEIGHT) {
+            if (y2 > screenHeight) {
                 let y1 = 0;
             }
         }
-        if (direction = DIRECTION_LEFT) {
+        if (direction = directionLeft) {
             let x1 = x1 - segmentSize;
             if (x1 < 0) {
-                let x1 = SCREEN_WIDTH - segmentSize;
+                let x1 = screenWidth - segmentSize;
             }
         }
 
