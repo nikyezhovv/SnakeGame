@@ -1,17 +1,9 @@
 class Random {
     field int seed;
-    field int lastDirection;
-    field int stepCounter;
-    field int stepsToUpdate;
 
     constructor Random new(int initialSeed) {
         let seed = initialSeed;
         return this;
-    }
-
-    method void updateDirection(int direction) {
-        let lastDirection = direction;
-        return;
     }
 
     method int getSeed() {
@@ -36,13 +28,6 @@ class Random {
         let remainder = randomValue - (range * (randomValue / range));
 
         return min + remainder;
-    }
-
-    method void updateSeedWithDirection(int direction) {
-        let seed = BitOperations.xor(seed, direction);
-        let seed = BitOperations.shiftLeft(seed, 3);
-        let seed = BitOperations.xor(seed, BitOperations.shiftRight(seed, 5));
-        return;
     }
 
     method void dispose() {

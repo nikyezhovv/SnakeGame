@@ -3,18 +3,19 @@ class Game {
     static Snake snake;
     static Apple apple;
     static Score score;
-    static SnakeRandom random;
+    static Random random;
     static int segmentSize;
-    static Segment nextHeadSegment;
+    static int seed;
 
     //function start the game
     function void StartAllGame() {
         let segmentSize = 9;
         let delay = 100;
         let score = Score.new();
+        let seed = 12345;
         
-        while (1 = 1)
-        {
+        while (true)
+        {            
             do Game.drawStartMenu();
             do Game.waitForStart();
             do Game.StartGame();
@@ -25,47 +26,39 @@ class Game {
     //function start the game
     function void StartGame() {
         var Segment nextHeadSegment;
-        var int key;
         var Segment head;
 
         // Инициализация объектов      
         do score.setPoints(5);  
         let snake = Snake.new(67, 20, score.getPoints(), segmentSize);
-        let random = SnakeRandom.new(12345, 4);
-        let apple = Apple.new(
-            9 * random.nextIntRange(6, 36) + 67,
-            9 * random.nextIntRange(6, 23) + 20,
-            segmentSize / 3
-        );
+        let random = Random.new(seed);
+        let apple = Apple.createRandomApple(random, segmentSize);
 
         //drow field        
-        do Screen.clearScreen();
-        do Output.moveCursor(3, 1);
-        do Output.printString("Score:");   
-        do score.drowScore();     
-        do GameField.drowField();
-        do apple.draw();
+        do Game.drawGameField();
         
         // Main game loop
-        while (~(snake.IsCollied())) {
-            let key = Keyboard.keyPressed();
-            
-            if (key = 131) { do snake.setDirection(0); }  // up
-            if (key = 133) { do snake.setDirection(2); }  // down
-            if (key = 130) { do snake.setDirection(3); }  // left
-            if (key = 132) { do snake.setDirection(1); }   // right  
-
+        while (~(snake.IsColliding())) {
             do snake.move();
             
             // Проверка съедания яблока            
             let head = snake.getHeadSegment();
-
             let nextHeadSegment = snake.calculateNewSegment(
                 head.getX1(), head.getY1(), 
                 head.getX2(), head.getY2()
             );
 
-            if (apple.isEaten(nextHeadSegment.getX1(), nextHeadSegment.getY1())) {
+            do Game.HandleAppleEating(nextHeadSegment);            
+            do Sys.wait(delay);
+        }
+        do Game.drawGameOver();
+        do snake.dispose();      
+   
+        return;
+    }
+
+    function void HandleAppleEating(Segment nextHeadSegment) {
+        if (apple.isEaten(nextHeadSegment.getX1(), nextHeadSegment.getY1())) {
                 // Сначала добавляем новый сегмент и счёт (змея растет)
                 do apple.erase();
                 do snake.addSegment();
@@ -73,30 +66,28 @@ class Game {
                 do score.drowScore();
                 
                 // Затем создаем новое яблоко
-                let apple = Apple.new(
-                    9 * random.nextIntRange(6, 36) + 67,
-                    9 * random.nextIntRange(6, 23) + 20,
-                    segmentSize / 3
-                );
+                let apple = Apple.createRandomApple(random, segmentSize);
                 do apple.draw();
                 
                 // Перерисовываем голову змеи (так как она могла быть стерта при удалении яблока)
                 do snake.drawHead();
             }
-            
-            do Sys.wait(delay);
-        }
-        
-        // Game over
-        do Game.drowGameOver();
-        do snake.dispose();       
-   
         return;
     }
 
-    function void drowGameOver() {
+    function void drawGameField() {
         do Screen.clearScreen();
-        do Output.moveCursor(11, 18);
+        do Output.moveCursor(3, 1);
+        do Output.printString("Score:");   
+        do score.drowScore();     
+        do MyScreen.drawRectangle(63, 16, 449, 240, 4);
+        do apple.draw();
+        return;
+    }
+
+    function void drawGameOver() {
+        do Screen.clearScreen();
+        do Output.moveCursor(12, 20);
         do Output.printString("Game Over!");
         do Sys.wait(1000);
         return;
@@ -111,12 +102,12 @@ class Game {
         do Output.moveCursor(11, 18); // Output uses character coordinates
         do Output.printString("Press Space to Start");
         
-        do Screen.drawLine(20,10,512-20,10);
-        do Screen.drawLine(20,256-10,512-20,256-10);
-        do Screen.drawLine(10,20,10,256-20);
-        do Screen.drawLine(512-10,20,512-10,256-20);
+        do Screen.drawLine(20, 10, 492, 10);
+        do Screen.drawLine(20, 246, 492, 246);
+        do Screen.drawLine(10, 20, 10, 236);
+        do Screen.drawLine(502, 20, 502, 236);
 
-        do MyScreen.drawRectangle(140,115,512-180,256-115, 3);
+        do MyScreen.drawRectangle(140, 115, 332, 141, 3);
 
         do Output.moveCursor(15, 19); // Output uses character coordinates
         do Output.printString("Best result: ");
@@ -132,6 +123,7 @@ class Game {
         let gameStarted = false;
         
         while (~gameStarted) {
+            let seed = seed + 1;
             let key = Keyboard.keyPressed();
             if (key = 32) {  // Space key ASCII code is 32
                 let gameStarted = true;
