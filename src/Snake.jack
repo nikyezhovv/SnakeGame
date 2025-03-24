@@ -15,8 +15,8 @@ class Snake {
         let directionRight = 1;
         let directionDown = 2;
         let directionLeft = 3;
-        let screenHeight = 256;
-        let screenWidth = 512;
+        let screenHeight = 236;
+        let screenWidth = 445;
 
 
         let segmentSize = initialSegmentSize;
@@ -40,6 +40,10 @@ class Snake {
 
     method int getSegmentSize() { 
         return segmentSize; 
+    }
+
+    method Segment getHeadSegment() {
+        return head.getData();
     }
 
     method void setDirection(int newDirection) {
@@ -70,7 +74,7 @@ class Snake {
         if (direction = directionUp) {
             let y1 = y1 - segmentSize;
 
-            if (y1 < 0) {
+            if (y1 < 20) {
                 let y1 = screenHeight - segmentSize;
             }
         }
@@ -78,19 +82,19 @@ class Snake {
             let x1 = x1 + segmentSize;
             let x2 = x2 + segmentSize;
             if (x2 > screenWidth) {
-                let x1 = 0;
+                let x1 = 67;
             }
         }
         if (direction = directionDown) {
             let y1 = y1 + segmentSize;
             let y2 = y2 + segmentSize;
             if (y2 > screenHeight) {
-                let y1 = 0;
+                let y1 = 20;
             }
         }
         if (direction = directionLeft) {
             let x1 = x1 - segmentSize;
-            if (x1 < 0) {
+            if (x1 < 67) {
                 let x1 = screenWidth - segmentSize;
             }
         }
@@ -151,8 +155,10 @@ class Snake {
 
         let tailSegment = oldTail.getData();
         do Screen.setColor(false);
-        do Screen.drawRectangle(tailSegment.getX1(), tailSegment.getY1(), 
+        do Screen.drawRectangle(tailSegment.getX1(), tailSegment.getY1(),
                                 tailSegment.getX2(), tailSegment.getY2());
+     //   do Screen.drawRectangle(tailSegment.getX1() - (segmentSize / 2), tailSegment.getY1() - (segmentSize / 2),
+     //                           tailSegment.getX1() + (segmentSize / 2), tailSegment.getY1() + (segmentSize / 2));
         do Screen.setColor(true);
 
         do oldTail.dispose();
@@ -172,6 +178,8 @@ class Snake {
         let headSegment = head.getData();
         do Screen.drawRectangle(headSegment.getX1(), headSegment.getY1(), 
                                 headSegment.getX2(), headSegment.getY2()); 
+      //  do Screen.drawRectangle(headSegment.getX1() - (segmentSize / 2), headSegment.getY1() - (segmentSize / 2),
+     //                           headSegment.getX1() + (segmentSize / 2), headSegment.getY1() + (segmentSize / 2));
         return;
     }
 

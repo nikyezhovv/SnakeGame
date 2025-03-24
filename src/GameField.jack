@@ -4,7 +4,7 @@ class GameField {
     function void drowStartGame(Score score) {
         do Screen.clearScreen();
         
-        do drowField();
+        do GameField.drowField();
 
         do Output.moveCursor(3, 1);
         do Output.printString("Score:");
@@ -13,9 +13,9 @@ class GameField {
         return;
     }
 
-    method void drowField()
+    function void drowField()
     {
-        do MyScreen.drawRectangle(76-9 -4, 20 - 4, 436+9 + 4, 256 - 20 + 4, 4);
+        do MyScreen.drawRectangle(67 -4, 20 - 4, 445 + 4, 236 + 4, 4);
         return;
     }
 }

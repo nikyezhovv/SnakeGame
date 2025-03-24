@@ -4,36 +4,36 @@ class Apple
     field int radius;
 
     constructor Apple new(int xPos, int yPos, int r) {
-        let x = x;
-        let y = y;
+        let x = xPos;
+        let y = yPos;
         let radius = r;
         return this;
     }
 
     method void draw() {
         do Screen.setColor(true);
-        do Screen.drawCircle(x, y, radius);
+  //      do Screen.drawCircle(x, y, radius);
+        do MyScreen.drawRectangle(x, y, x + 9, y+9, 1);
         return;
     }
 
     method void erase() {
         do Screen.setColor(false);
         do Screen.drawCircle(x, y, radius);
+        do MyScreen.drawRectangle(x,y,x + 9, y+9, 1);
         return;
     }
 
     method boolean isEaten(int snakeHeadX, int snakeHeadY) {
-        if ((x = snakeHeadX) & (y = snakeHeadY))
-        {
-            return true;
-        }
-        return false;
+        return (Math.abs(x - snakeHeadX) < 5) & 
+            (Math.abs(y - snakeHeadY) < 5);
     }
-
+    
     method void appear(int newX, int newY) {
+        do erase();  // Сначала стираем старое
         let x = newX;
         let y = newY;
-        do draw();
+        do draw();   // Затем рисуем новое
         return;
     }
     

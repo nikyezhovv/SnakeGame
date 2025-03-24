@@ -11,9 +11,14 @@ class Score {
         return this;
     }
 
-    method int getPoints() {return points; }
+    method int getPoints() { return points; }
 
-    method int getBestResult() {return bestResult; }
+    method int getBestResult() { return bestResult; }
+
+    method void setPoints(int point) {
+        let points = point;
+        return;
+    }
 
     method int addPoints() {
         let points = points + 1;

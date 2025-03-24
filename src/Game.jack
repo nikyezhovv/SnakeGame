@@ -1,0 +1,153 @@
+class Game {
+    static int delay;
+    static Snake snake;
+    static Apple apple;
+    static Score score;
+    static SnakeRandom random;
+    static boolean isRunning;
+    static int segmentSize;
+    static Segment nextHeadSegment;
+
+    //function start the game
+    function void StartAllGame() {
+        let segmentSize = 9;
+        let delay = 100;  
+        let isRunning = true;
+        let score = Score.new();
+        
+        while (1 = 1)
+        {
+            do score.setPoints(5);
+            do Game.drawStartMenu();
+            do Game.waitForStart();
+            do Game.StartGame();
+        }
+        return;
+    }
+
+    function void StartGame() {
+        var int key;
+        var Segment head;
+        var int headCenterX, headCenterY;
+
+    //drow field
+        do score.setPoints(5);
+        do Screen.clearScreen();
+        do Output.moveCursor(3, 1);
+        do Output.printString("Score:");   
+        do score.drowScore();     
+        do GameField.drowField();
+
+
+        // Инициализация объектов
+        
+        let snake = Snake.new(67, 20, 5, segmentSize);
+        let random = SnakeRandom.new(12345, 4);
+        let apple = Apple.new(
+            9 * random.nextIntRange(6, 37) + 67,
+            9 * random.nextIntRange(6, 24) + 20,
+            3
+        );
+        do apple.draw();
+        
+        // Main game loop
+        while (~(snake.IsCollied())) {
+            let key = Keyboard.keyPressed();
+            
+            if (key = 131) { do snake.setDirection(0); }  // up
+            if (key = 133) { do snake.setDirection(2); }  // down
+            if (key = 130) { do snake.setDirection(3); }  // left
+            if (key = 132) { do snake.setDirection(1); }   // right
+            
+            do snake.move();
+            
+            // Проверка съедания яблока
+            
+            let head = snake.getHeadSegment();
+
+            let nextHeadSegment = snake.calculateNewSegment(
+                head.getX1(), head.getY1(), 
+                head.getX2(), head.getY2()
+            );
+
+            // Вычисляем центр головного сегмента змеи
+            let headCenterX = nextHeadSegment.getX1();
+            let headCenterY = nextHeadSegment.getY1();
+
+            if (apple.isEaten(headCenterX, headCenterY)) {
+                // Сначала добавляем новый сегмент (змея растет)
+                do apple.erase();
+                do snake.addSegment();
+                do score.addPoints();
+                do score.drowScore();
+                
+                // Затем создаем новое яблоко
+                let apple = Apple.new(
+                9 * random.nextIntRange(6, 37) + 67,
+                9 * random.nextIntRange(6, 24) + 20,
+                3
+                );
+                do apple.draw();
+                
+                // Перерисовываем голову змеи (так как она могла быть стерта при удалении яблока)
+                do snake.drawHead();
+            }
+            
+            do Sys.wait(delay);
+        }
+        
+        // Game over
+        do Game.drowGameOver();
+        do snake.dispose();       
+   
+        return;
+    }
+
+    function void drowGameOver() {
+        do Screen.clearScreen();
+        do Output.moveCursor(11, 18);
+        do Output.printString("Game Over!");
+        do Sys.wait(1000);
+        return;
+    }
+  
+    function void drawStartMenu() {
+        var int snakeLength, i, x, y, segmentSpacing;
+
+        do Screen.clearScreen();
+
+        // Display "Press Space to Start" message
+        do Output.moveCursor(11, 18); // Output uses character coordinates
+        do Output.printString("Press Space to Start");
+        
+        do Screen.drawLine(20,10,512-20,10);
+        do Screen.drawLine(20,256-10,512-20,256-10);
+        do Screen.drawLine(10,20,10,256-20);
+        do Screen.drawLine(512-10,20,512-10,256-20);
+
+        do MyScreen.drawRectangle(140,115,512-180,256-115, 3);
+
+        do Output.moveCursor(15, 19); // Output uses character coordinates
+        do Output.printString("Best result: ");
+        do Output.printInt(score.getBestResult());
+        do Output.printString(" !");
+
+        return;
+    }
+    
+    function void waitForStart() {
+        var char key;
+        var boolean gameStarted;
+        let gameStarted = false;
+        
+        while (~gameStarted) {
+            let key = Keyboard.keyPressed();
+            if (key = 32) {  // Space key ASCII code is 32
+                let gameStarted = true;
+            }
+            do Sys.wait(50); // Small delay to avoid busy-waiting
+        }
+        return;
+    }
+
+}
