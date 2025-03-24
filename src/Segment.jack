@@ -1,0 +1,53 @@
+class Segment {
+    // The coordinates of the rectangle: (x1, y1) - top-left corner, (x2, y2) - bottom-right corner.
+    field int x1, y1, x2, y2;
+
+    constructor Segment new(int x, int y, int size) {
+        let x1 = x;
+        let y1 = y;
+        let x2 = x + size - 1;
+        let y2 = y + size - 1;
+        return this;
+    }
+
+    method int getX1() {
+        return x1;
+    }
+
+    method int getY1() { 
+        return y1; 
+    }
+
+    method int getX2() { 
+        return x2; 
+    }
+
+    method int getY2() { 
+        return y2; 
+    }
+
+    method void setX1(int newX1) { 
+        let x1 = newX1;
+        return;
+    }
+
+    method void setY1(int newY1) { 
+        let y1 = newY1;
+        return;
+    }
+
+    method void setX2(int newX2) { 
+        let x2 = newX2; 
+        return;
+    }
+
+    method void setY2(int newY2) { 
+        let y2 = newY2; 
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

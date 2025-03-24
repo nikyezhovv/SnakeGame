@@ -1,0 +1,27 @@
+class BitOperations {
+    function int shiftLeft(int value, int bits) {
+        var int result, i;
+        let result = value;
+        let i = 0;
+        while (i < bits) {
+            let result = result * 2; 
+            let i = i + 1;
+        }
+        return result;
+    }
+
+    function int shiftRight(int value, int bits) {
+        var int result, i;
+        let result = value;
+        let i = 0;
+        while (i < bits) {
+            let result = result / 2; 
+            let i = i + 1;
+        }
+        return result;
+    }
+
+    function int xor(int a, int b) {
+        return (a & (~b)) | ((~a) & b);
+    }
+}

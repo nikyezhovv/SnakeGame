@@ -1,0 +1,63 @@
+class SnakeRandom {
+    field int seed;
+    field int lastDirection;
+    field int stepCounter;
+    field int stepsToUpdate;
+
+    constructor SnakeRandom new(int initialSeed, int stepsToUpdateSeed) {
+        let seed = initialSeed;
+        let lastDirection = 0;
+        let stepCounter = 0;
+        let stepsToUpdate = stepsToUpdateSeed;
+        return this;
+    }
+
+    method void updateDirection(int direction) {
+        let lastDirection = direction;
+        return;
+    }
+
+    method int getSeed() {
+        return seed;
+    }
+
+    method int nextInt() {
+        var int temp;
+
+        if (stepCounter > (stepsToUpdate - 1)) {
+            do updateSeedWithDirection(lastDirection);
+            let stepCounter = 0;
+        } else {
+            let stepCounter = stepCounter + 1;
+        }
+
+        let temp = BitOperations.xor(seed, BitOperations.shiftLeft(seed, 7));
+        let temp = BitOperations.xor(temp, BitOperations.shiftRight(temp, 9));
+        let temp = BitOperations.xor(temp, BitOperations.shiftLeft(temp, 8));
+        let seed = temp;
+
+        return seed;
+    }
+
+    method int nextIntRange(int min, int max) {
+        var int range, randomValue, remainder;
+
+        let range = max - min + 1;
+        let randomValue = Math.abs(nextInt());
+        let remainder = randomValue - (range * (randomValue / range));
+
+        return min + remainder;
+    }
+
+    method void updateSeedWithDirection(int direction) {
+        let seed = BitOperations.xor(seed, direction);
+        let seed = BitOperations.shiftLeft(seed, 3);
+        let seed = BitOperations.xor(seed, BitOperations.shiftRight(seed, 5));
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

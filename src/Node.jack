@@ -1,0 +1,39 @@
+class Node {
+    field Segment data;
+    field Node next;
+    field Node previous;
+
+    constructor Node new(Segment initialData) {
+        let data = initialData;
+        let next = null;
+        let previous = null;
+        return this;
+    }
+
+    method Segment getData() { 
+        return data; 
+    }
+
+    method Node getNext() { 
+        return next; 
+    }
+    
+    method Node getPrevious() { 
+        return previous; 
+    }
+
+    method void setNext(Node nextNode) {
+        let next = nextNode; 
+        return;
+    }
+
+    method void setPrevious(Node prevNode) {
+        let previous = prevNode;
+        return;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
