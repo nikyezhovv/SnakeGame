@@ -12,14 +12,12 @@ class Apple
 
     method void draw() {
         do Screen.setColor(true);
-  //      do Screen.drawCircle(x, y, radius);
         do MyScreen.drawRectangle(x, y, x + 9, y+9, 1);
         return;
     }
 
     method void erase() {
         do Screen.setColor(false);
-        do Screen.drawCircle(x, y, radius);
         do MyScreen.drawRectangle(x,y,x + 9, y+9, 1);
         return;
     }

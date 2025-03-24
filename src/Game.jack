@@ -4,20 +4,17 @@ class Game {
     static Apple apple;
     static Score score;
     static SnakeRandom random;
-    static boolean isRunning;
     static int segmentSize;
     static Segment nextHeadSegment;
 
     //function start the game
     function void StartAllGame() {
         let segmentSize = 9;
-        let delay = 100;  
-        let isRunning = true;
+        let delay = 100;
         let score = Score.new();
         
         while (1 = 1)
         {
-            do score.setPoints(5);
             do Game.drawStartMenu();
             do Game.waitForStart();
             do Game.StartGame();
@@ -25,29 +22,28 @@ class Game {
         return;
     }
 
+    //function start the game
     function void StartGame() {
+        var Segment nextHeadSegment;
         var int key;
         var Segment head;
-        var int headCenterX, headCenterY;
 
-    //drow field
-        do score.setPoints(5);
+        // Инициализация объектов      
+        do score.setPoints(5);  
+        let snake = Snake.new(67, 20, score.getPoints(), segmentSize);
+        let random = SnakeRandom.new(12345, 4);
+        let apple = Apple.new(
+            9 * random.nextIntRange(6, 36) + 67,
+            9 * random.nextIntRange(6, 23) + 20,
+            segmentSize / 3
+        );
+
+        //drow field        
         do Screen.clearScreen();
         do Output.moveCursor(3, 1);
         do Output.printString("Score:");   
         do score.drowScore();     
         do GameField.drowField();
-
-
-        // Инициализация объектов
-        
-        let snake = Snake.new(67, 20, 5, segmentSize);
-        let random = SnakeRandom.new(12345, 4);
-        let apple = Apple.new(
-            9 * random.nextIntRange(6, 37) + 67,
-            9 * random.nextIntRange(6, 24) + 20,
-            3
-        );
         do apple.draw();
         
         // Main game loop
@@ -57,12 +53,11 @@ class Game {
             if (key = 131) { do snake.setDirection(0); }  // up
             if (key = 133) { do snake.setDirection(2); }  // down
             if (key = 130) { do snake.setDirection(3); }  // left
-            if (key = 132) { do snake.setDirection(1); }   // right
-            
+            if (key = 132) { do snake.setDirection(1); }   // right  
+
             do snake.move();
             
-            // Проверка съедания яблока
-            
+            // Проверка съедания яблока            
             let head = snake.getHeadSegment();
 
             let nextHeadSegment = snake.calculateNewSegment(
@@ -70,12 +65,8 @@ class Game {
                 head.getX2(), head.getY2()
             );
 
-            // Вычисляем центр головного сегмента змеи
-            let headCenterX = nextHeadSegment.getX1();
-            let headCenterY = nextHeadSegment.getY1();
-
-            if (apple.isEaten(headCenterX, headCenterY)) {
-                // Сначала добавляем новый сегмент (змея растет)
+            if (apple.isEaten(nextHeadSegment.getX1(), nextHeadSegment.getY1())) {
+                // Сначала добавляем новый сегмент и счёт (змея растет)
                 do apple.erase();
                 do snake.addSegment();
                 do score.addPoints();
@@ -83,9 +74,9 @@ class Game {
                 
                 // Затем создаем новое яблоко
                 let apple = Apple.new(
-                9 * random.nextIntRange(6, 37) + 67,
-                9 * random.nextIntRange(6, 24) + 20,
-                3
+                    9 * random.nextIntRange(6, 36) + 67,
+                    9 * random.nextIntRange(6, 23) + 20,
+                    segmentSize / 3
                 );
                 do apple.draw();
                 
@@ -149,5 +140,4 @@ class Game {
         }
         return;
     }
-
 }
