@@ -6,15 +6,16 @@ class Game {
     static Random random;
     static int segmentSize;
     static int seed;
+    static boolean exitGame;
 
-    //function start the game
     function void StartAllGame() {
         let segmentSize = 9;
         let delay = 100;
         let score = Score.new();
         let seed = 12345;
+        let exitGame = false;
         
-        while (true)
+        while (~exitGame)
         {            
             do Game.drawStartMenu();
             do Game.waitForStart();
@@ -23,33 +24,34 @@ class Game {
         return;
     }
 
-    //function start the game
     function void StartGame() {
         var Segment nextHeadSegment;
         var Segment head;
-
-        // Инициализация объектов      
-        do score.setPoints(5);  
+      
+        do score.setPoints(3);  
         let snake = Snake.new(67, 20, score.getPoints(), segmentSize);
         let random = Random.new(seed);
         let apple = Apple.createRandomApple(random, segmentSize);
-
-        //drow field        
+   
         do Game.drawGameField();
         
-        // Main game loop
-        while (~(snake.IsColliding())) {
+        while (~(snake.IsColliding()) & ~(exitGame)) {
             do snake.move();
             
-            // Проверка съедания яблока            
+            // check if apple is eaten            
             let head = snake.getHeadSegment();
             let nextHeadSegment = snake.calculateNewSegment(
                 head.getX1(), head.getY1(), 
                 head.getX2(), head.getY2()
             );
 
-            do Game.HandleAppleEating(nextHeadSegment);            
+            do Game.HandleAppleEating(nextHeadSegment);
+            let exitGame = Game.checkExit();           
             do Sys.wait(delay);
+        }
+        if (exitGame) {
+            do Game.exitGame();
+            return;
         }
         do Game.drawGameOver();
         do snake.dispose();      
@@ -59,17 +61,17 @@ class Game {
 
     function void HandleAppleEating(Segment nextHeadSegment) {
         if (apple.isEaten(nextHeadSegment.getX1(), nextHeadSegment.getY1())) {
-                // Сначала добавляем новый сегмент и счёт (змея растет)
+                // snake is growing adding next segment
                 do apple.erase();
                 do snake.addSegment();
                 do score.addPoints();
                 do score.drowScore();
                 
-                // Затем создаем новое яблоко
+                // add new apple
                 let apple = Apple.createRandomApple(random, segmentSize);
                 do apple.draw();
                 
-                // Перерисовываем голову змеи (так как она могла быть стерта при удалении яблока)
+                // redraw snake's head (cause it might have been deleted)
                 do snake.drawHead();
             }
         return;
@@ -87,7 +89,7 @@ class Game {
 
     function void drawGameOver() {
         do Screen.clearScreen();
-        do Output.moveCursor(12, 20);
+        do Output.moveCursor(12, 25);
         do Output.printString("Game Over!");
         do Sys.wait(1000);
         return;
@@ -99,7 +101,7 @@ class Game {
         do Screen.clearScreen();
 
         // Display "Press Space to Start" message
-        do Output.moveCursor(11, 18); // Output uses character coordinates
+        do Output.moveCursor(11, 20);
         do Output.printString("Press Space to Start");
         
         do Screen.drawLine(20, 10, 492, 10);
@@ -109,7 +111,7 @@ class Game {
 
         do MyScreen.drawRectangle(140, 115, 332, 141, 3);
 
-        do Output.moveCursor(15, 19); // Output uses character coordinates
+        do Output.moveCursor(15, 18);
         do Output.printString("Best result: ");
         do Output.printInt(score.getBestResult());
         do Output.printString(" !");
@@ -125,11 +127,25 @@ class Game {
         while (~gameStarted) {
             let seed = seed + 1;
             let key = Keyboard.keyPressed();
-            if (key = 32) {  // Space key ASCII code is 32
+            if (key = 32) {     // space
                 let gameStarted = true;
             }
-            do Sys.wait(50); // Small delay to avoid busy-waiting
+            do Sys.wait(50);
         }
+        return;
+    }
+
+    function boolean checkExit() {
+        var char key;
+        let key = Keyboard.keyPressed();
+        return (key = 140);
+    }
+
+    function void exitGame() {
+        do Screen.clearScreen();
+        do Output.moveCursor(12, 25);
+        do Output.printString("Game Exited!");
+        do Sys.wait(1000);
         return;
     }
 }
