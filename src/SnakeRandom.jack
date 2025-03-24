@@ -1,14 +1,11 @@
-class SnakeRandom {
+class Random {
     field int seed;
     field int lastDirection;
     field int stepCounter;
     field int stepsToUpdate;
 
-    constructor SnakeRandom new(int initialSeed, int stepsToUpdateSeed) {
+    constructor Random new(int initialSeed) {
         let seed = initialSeed;
-        let lastDirection = 0;
-        let stepCounter = 0;
-        let stepsToUpdate = stepsToUpdateSeed;
         return this;
     }
 
@@ -23,14 +20,6 @@ class SnakeRandom {
 
     method int nextInt() {
         var int temp;
-
-        if (stepCounter > (stepsToUpdate - 1)) {
-            do updateSeedWithDirection(lastDirection);
-            let stepCounter = 0;
-        } else {
-            let stepCounter = stepCounter + 1;
-        }
-
         let temp = BitOperations.xor(seed, BitOperations.shiftLeft(seed, 7));
         let temp = BitOperations.xor(temp, BitOperations.shiftRight(temp, 9));
         let temp = BitOperations.xor(temp, BitOperations.shiftLeft(temp, 8));
