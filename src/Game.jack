@@ -21,6 +21,10 @@ class Game {
             do Game.waitForStart();
             do Game.startGame();
         }
+        if (exitGame) {
+            do Game.exitGame();
+            return;
+        }
         return;
     }
 
@@ -124,7 +128,9 @@ class Game {
         var boolean gameStarted;
         let gameStarted = false;
         
-        while (~gameStarted) {
+        while (~gameStarted & ~exitGame) {
+            let exitGame = Game.checkExit();           
+
             let seed = seed + 1;
             let key = Keyboard.keyPressed();
             if (key = 32) {     // space
