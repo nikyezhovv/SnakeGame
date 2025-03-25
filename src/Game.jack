@@ -8,7 +8,7 @@ class Game {
     static int seed;
     static boolean exitGame;
 
-    function void StartAllGame() {
+    function void startAllGame() {
         let segmentSize = 9;
         let delay = 100;
         let score = Score.new();
@@ -19,12 +19,12 @@ class Game {
         {            
             do Game.drawStartMenu();
             do Game.waitForStart();
-            do Game.StartGame();
+            do Game.startGame();
         }
         return;
     }
 
-    function void StartGame() {
+    function void startGame() {
         var Segment nextHeadSegment;
         var Segment head;
       
