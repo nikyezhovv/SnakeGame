@@ -1,0 +1,456 @@
+function Snake.new 0
+    push constant 5
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 0
+    pop static 0
+    push constant 1
+    pop static 1
+    push constant 2
+    pop static 2
+    push constant 3
+    pop static 3
+    push constant 236
+    pop static 4
+    push constant 445
+    pop static 5
+    push constant 67
+    pop static 6
+    push constant 20
+    pop static 7
+    push argument 3
+    pop this 3
+    push static 1
+    pop this 2
+    push constant 0
+    pop this 4
+    push argument 0
+    push argument 1
+    push this 3
+    call Segment.new 3
+    call Node.new 1
+    pop this 0
+    push this 0
+    pop this 1
+label Snake_0
+    push argument 2
+    push constant 0
+    gt
+    not
+    if-goto Snake_1
+    push pointer 0
+    call Snake.addSegment 1
+    pop temp 0
+    push argument 2
+    push constant 1
+    sub
+    pop argument 2
+    goto Snake_0
+label Snake_1
+    push pointer 0
+    return
+function Snake.getDirection 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    return
+function Snake.getSegmentSize 0
+    push argument 0
+    pop pointer 0
+    push this 3
+    return
+function Snake.getHeadSegment 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    call Node.getData 1
+    return
+function Snake.setDirection 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    push argument 1
+    sub
+    call Math.abs 1
+    push constant 2
+    eq
+    not
+    not
+    if-goto Snake_3
+    push argument 1
+    pop this 2
+    goto Snake_2
+label Snake_3
+label Snake_2
+    push constant 0
+    return
+function Snake.addSegment 6
+    push argument 0
+    pop pointer 0
+    push this 0
+    call Node.getData 1
+    pop local 1
+    push local 1
+    call Segment.getX1 1
+    pop local 2
+    push local 1
+    call Segment.getY1 1
+    pop local 3
+    push local 1
+    call Segment.getX2 1
+    pop local 4
+    push local 1
+    call Segment.getY2 1
+    pop local 5
+    push pointer 0
+    push local 2
+    push local 3
+    push local 4
+    push local 5
+    call Snake.calculateNewSegment 5
+    pop local 0
+    push pointer 0
+    push local 0
+    call Snake.addNewSegmentToHead 2
+    pop temp 0
+    push constant 0
+    return
+function Snake.calculateNewSegment 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    push static 0
+    eq
+    not
+    if-goto Snake_5
+    push argument 2
+    push this 3
+    sub
+    pop argument 2
+    push argument 2
+    push static 7
+    lt
+    not
+    if-goto Snake_7
+    push static 4
+    push this 3
+    sub
+    pop argument 2
+    goto Snake_6
+label Snake_7
+label Snake_6
+    goto Snake_4
+label Snake_5
+label Snake_4
+    push this 2
+    push static 1
+    eq
+    not
+    if-goto Snake_9
+    push argument 1
+    push this 3
+    add
+    pop argument 1
+    push argument 3
+    push this 3
+    add
+    pop argument 3
+    push argument 3
+    push static 5
+    gt
+    not
+    if-goto Snake_11
+    push static 6
+    pop argument 1
+    goto Snake_10
+label Snake_11
+label Snake_10
+    goto Snake_8
+label Snake_9
+label Snake_8
+    push this 2
+    push static 2
+    eq
+    not
+    if-goto Snake_13
+    push argument 2
+    push this 3
+    add
+    pop argument 2
+    push argument 4
+    push this 3
+    add
+    pop argument 4
+    push argument 4
+    push static 4
+    gt
+    not
+    if-goto Snake_15
+    push static 7
+    pop argument 2
+    goto Snake_14
+label Snake_15
+label Snake_14
+    goto Snake_12
+label Snake_13
+label Snake_12
+    push this 2
+    push static 3
+    eq
+    not
+    if-goto Snake_17
+    push argument 1
+    push this 3
+    sub
+    pop argument 1
+    push argument 1
+    push static 6
+    lt
+    not
+    if-goto Snake_19
+    push static 5
+    push this 3
+    sub
+    pop argument 1
+    goto Snake_18
+label Snake_19
+label Snake_18
+    goto Snake_16
+label Snake_17
+label Snake_16
+    push argument 1
+    push argument 2
+    push this 3
+    call Segment.new 3
+    return
+function Snake.checkCollision 7
+    push argument 0
+    pop pointer 0
+    push this 0
+    call Node.getData 1
+    pop local 0
+    push local 0
+    call Segment.getX1 1
+    pop local 3
+    push local 0
+    call Segment.getY1 1
+    pop local 4
+    push local 0
+    call Segment.getX2 1
+    pop local 5
+    push local 0
+    call Segment.getY2 1
+    pop local 6
+    push this 0
+    call Node.getNext 1
+    pop local 2
+label Snake_20
+    push local 2
+    push constant 0
+    eq
+    not
+    not
+    if-goto Snake_21
+    push local 2
+    call Node.getData 1
+    pop local 1
+    push local 3
+    push local 1
+    call Segment.getX1 1
+    eq
+    push local 4
+    push local 1
+    call Segment.getY1 1
+    eq
+    and
+    not
+    if-goto Snake_23
+    push constant 1
+    neg
+    pop this 4
+    push constant 0
+    return
+    goto Snake_22
+label Snake_23
+label Snake_22
+    push local 2
+    call Node.getNext 1
+    pop local 2
+    goto Snake_20
+label Snake_21
+    push constant 0
+    pop this 4
+    push constant 0
+    return
+function Snake.IsColliding 0
+    push argument 0
+    pop pointer 0
+    push this 4
+    return
+function Snake.addNewSegmentToHead 1
+    push argument 0
+    pop pointer 0
+    push argument 1
+    call Node.new 1
+    pop local 0
+    push local 0
+    push this 0
+    call Node.setNext 2
+    pop temp 0
+    push this 0
+    push local 0
+    call Node.setPrevious 2
+    pop temp 0
+    push local 0
+    pop this 0
+    push constant 0
+    return
+function Snake.removeTail 2
+    push argument 0
+    pop pointer 0
+    push this 1
+    pop local 0
+    push this 1
+    call Node.getPrevious 1
+    pop this 1
+    push this 1
+    push constant 0
+    call Node.setNext 2
+    pop temp 0
+    push local 0
+    call Node.getData 1
+    pop local 1
+    push constant 0
+    call Screen.setColor 1
+    pop temp 0
+    push local 1
+    call Segment.getX1 1
+    push local 1
+    call Segment.getY1 1
+    push local 1
+    call Segment.getX2 1
+    push local 1
+    call Segment.getY2 1
+    call Screen.drawRectangle 4
+    pop temp 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push local 0
+    call Node.dispose 1
+    pop temp 0
+    push constant 0
+    return
+function Snake.move 1
+    push argument 0
+    pop pointer 0
+    call Keyboard.keyPressed 0
+    pop local 0
+    push local 0
+    push constant 131
+    eq
+    not
+    if-goto Snake_25
+    push pointer 0
+    push constant 0
+    call Snake.setDirection 2
+    pop temp 0
+    goto Snake_24
+label Snake_25
+label Snake_24
+    push local 0
+    push constant 133
+    eq
+    not
+    if-goto Snake_27
+    push pointer 0
+    push constant 2
+    call Snake.setDirection 2
+    pop temp 0
+    goto Snake_26
+label Snake_27
+label Snake_26
+    push local 0
+    push constant 130
+    eq
+    not
+    if-goto Snake_29
+    push pointer 0
+    push constant 3
+    call Snake.setDirection 2
+    pop temp 0
+    goto Snake_28
+label Snake_29
+label Snake_28
+    push local 0
+    push constant 132
+    eq
+    not
+    if-goto Snake_31
+    push pointer 0
+    push constant 1
+    call Snake.setDirection 2
+    pop temp 0
+    goto Snake_30
+label Snake_31
+label Snake_30
+    push pointer 0
+    call Snake.addSegment 1
+    pop temp 0
+    push pointer 0
+    call Snake.removeTail 1
+    pop temp 0
+    push pointer 0
+    call Snake.drawHead 1
+    pop temp 0
+    push pointer 0
+    call Snake.checkCollision 1
+    pop temp 0
+    push constant 0
+    return
+function Snake.drawHead 1
+    push argument 0
+    pop pointer 0
+    push this 0
+    call Node.getData 1
+    pop local 0
+    push local 0
+    call Segment.getX1 1
+    push local 0
+    call Segment.getY1 1
+    push local 0
+    call Segment.getX2 1
+    push local 0
+    call Segment.getY2 1
+    call Screen.drawRectangle 4
+    pop temp 0
+    push constant 0
+    return
+function Snake.dispose 2
+    push argument 0
+    pop pointer 0
+    push this 0
+    pop local 0
+label Snake_32
+    push local 0
+    push constant 0
+    eq
+    not
+    not
+    if-goto Snake_33
+    push local 0
+    call Node.getNext 1
+    pop local 1
+    push local 0
+    call Node.dispose 1
+    pop temp 0
+    push local 1
+    pop local 0
+    goto Snake_32
+label Snake_33
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

@@ -1,0 +1,66 @@
+function Score.new 0
+    push constant 2
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 0
+    pop this 0
+    push constant 0
+    pop this 1
+    push pointer 0
+    return
+function Score.getPoints 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function Score.getBestResult 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function Score.setPoints 0
+    push argument 0
+    pop pointer 0
+    push argument 1
+    pop this 0
+    push constant 0
+    return
+function Score.addPoints 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    push constant 1
+    add
+    pop this 0
+    push this 0
+    push this 1
+    gt
+    not
+    if-goto Score_1
+    push this 0
+    pop this 1
+    goto Score_0
+label Score_1
+label Score_0
+    push this 0
+    return
+function Score.drowScore 0
+    push argument 0
+    pop pointer 0
+    push constant 5
+    push constant 2
+    call Output.moveCursor 2
+    pop temp 0
+    push this 0
+    call Output.printInt 1
+    pop temp 0
+    push constant 0
+    return
+function Score.dispose 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

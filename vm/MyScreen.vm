@@ -1,0 +1,57 @@
+function MyScreen.drawRectangle 1
+    push constant 0
+    pop local 0
+label MyScreen_0
+    push local 0
+    push argument 4
+    lt
+    not
+    if-goto MyScreen_1
+    push argument 0
+    push argument 1
+    push local 0
+    add
+    push argument 2
+    push argument 1
+    push local 0
+    add
+    call Screen.drawLine 4
+    pop temp 0
+    push argument 0
+    push local 0
+    add
+    push argument 1
+    push argument 0
+    push local 0
+    add
+    push argument 3
+    call Screen.drawLine 4
+    pop temp 0
+    push argument 2
+    push local 0
+    sub
+    push argument 1
+    push argument 2
+    push local 0
+    sub
+    push argument 3
+    call Screen.drawLine 4
+    pop temp 0
+    push argument 0
+    push argument 3
+    push local 0
+    sub
+    push argument 2
+    push argument 3
+    push local 0
+    sub
+    call Screen.drawLine 4
+    pop temp 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto MyScreen_0
+label MyScreen_1
+    push constant 0
+    return

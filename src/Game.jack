@@ -63,6 +63,7 @@ class Game {
         if (apple.isEaten(nextHeadSegment.getX1(), nextHeadSegment.getY1())) {
                 // snake is growing adding next segment
                 do apple.erase();
+                do apple.dispose();
                 do snake.addSegment();
                 do score.addPoints();
                 do score.drowScore();
