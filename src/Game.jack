@@ -21,10 +21,9 @@ class Game {
             do Game.waitForStart();
             do Game.startGame();
         }
-        if (exitGame) {
-            do Game.exitGame();
-            return;
-        }
+        
+        do Game.exitGame();
+        
         return;
     }
 
