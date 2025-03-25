@@ -23,8 +23,8 @@ class Apple
     }
 
     method boolean isEaten(int snakeHeadX, int snakeHeadY) {
-        return (Math.abs(x - snakeHeadX) < size / 2) & 
-            (Math.abs(y - snakeHeadY) < size / 2);
+        return (Math.abs(x - snakeHeadX) < size) & 
+            (Math.abs(y - snakeHeadY) < size);
     }
     
     method void appear(int newX, int newY) {

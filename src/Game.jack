@@ -8,7 +8,7 @@ class Game {
     static int seed;
     static boolean exitGame;
 
-    function void StartAllGame() {
+    function void startAllGame() {
         let segmentSize = 9;
         let delay = 100;
         let score = Score.new();
@@ -19,12 +19,15 @@ class Game {
         {            
             do Game.drawStartMenu();
             do Game.waitForStart();
-            do Game.StartGame();
+            do Game.startGame();
         }
+        
+        do Game.exitGame();
+        
         return;
     }
 
-    function void StartGame() {
+    function void startGame() {
         var Segment nextHeadSegment;
         var Segment head;
       
@@ -45,7 +48,7 @@ class Game {
                 head.getX2(), head.getY2()
             );
 
-            do Game.HandleAppleEating(nextHeadSegment);
+            do Game.handleAppleEating(nextHeadSegment);
             let exitGame = Game.checkExit();           
             do Sys.wait(delay);
         }
@@ -59,7 +62,7 @@ class Game {
         return;
     }
 
-    function void HandleAppleEating(Segment nextHeadSegment) {
+    function void handleAppleEating(Segment nextHeadSegment) {
         if (apple.isEaten(nextHeadSegment.getX1(), nextHeadSegment.getY1())) {
                 // snake is growing adding next segment
                 do apple.erase();
@@ -125,7 +128,9 @@ class Game {
         var boolean gameStarted;
         let gameStarted = false;
         
-        while (~gameStarted) {
+        while (~gameStarted & ~exitGame) {
+            let exitGame = Game.checkExit();           
+
             let seed = seed + 1;
             let key = Keyboard.keyPressed();
             if (key = 32) {     // space

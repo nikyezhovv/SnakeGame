@@ -1,6 +1,6 @@
 class Main {
     function void main() {
-        do Game.StartAllGame();
+        do Game.startAllGame();
         return;
     }
 }
