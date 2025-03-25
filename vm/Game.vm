@@ -1,4 +1,4 @@
-function Game.StartAllGame 0
+function Game.startAllGame 0
     push constant 9
     pop static 5
     push constant 100
@@ -18,13 +18,15 @@ label Game_0
     pop temp 0
     call Game.waitForStart 0
     pop temp 0
-    call Game.StartGame 0
+    call Game.startGame 0
     pop temp 0
     goto Game_0
 label Game_1
+    call Game.exitGame 0
+    pop temp 0
     push constant 0
     return
-function Game.StartGame 2
+function Game.startGame 2
     push static 3
     push constant 3
     call Score.setPoints 2
@@ -72,7 +74,7 @@ label Game_2
     call Snake.calculateNewSegment 5
     pop local 0
     push local 0
-    call Game.HandleAppleEating 1
+    call Game.handleAppleEating 1
     pop temp 0
     call Game.checkExit 0
     pop static 7
@@ -98,7 +100,7 @@ label Game_4
     pop temp 0
     push constant 0
     return
-function Game.HandleAppleEating 0
+function Game.handleAppleEating 0
     push static 2
     push argument 0
     call Segment.getX1 1
@@ -347,8 +349,13 @@ function Game.waitForStart 2
 label Game_8
     push local 1
     not
+    push static 7
+    not
+    and
     not
     if-goto Game_9
+    call Game.checkExit 0
+    pop static 7
     push static 6
     push constant 1
     add
@@ -417,6 +424,20 @@ function Game.exitGame 0
     pop temp 0
     push constant 1000
     call Sys.wait 1
+    pop temp 0
+    call Screen.clearScreen 0
+    pop temp 0
+    push static 1
+    call Snake.dispose 1
+    pop temp 0
+    push static 3
+    call Score.dispose 1
+    pop temp 0
+    push static 2
+    call Apple.dispose 1
+    pop temp 0
+    push static 4
+    call Random.dispose 1
     pop temp 0
     push constant 0
     return

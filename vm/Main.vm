@@ -1,5 +1,5 @@
 function Main.main 0
-    call Game.StartAllGame 0
+    call Game.startAllGame 0
     pop temp 0
     push constant 0
     return

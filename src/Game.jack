@@ -152,6 +152,11 @@ class Game {
         do Output.moveCursor(12, 25);
         do Output.printString("Game Exited!");
         do Sys.wait(1000);
+        do Screen.clearScreen();
+        do snake.dispose();
+        do score.dispose();
+        do apple.dispose();
+        do random.dispose();
         return;
     }
 }
